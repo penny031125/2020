@@ -64,6 +64,7 @@
   </style>
 
 </head>
+
 <body>
 
 <div id="button-container">
@@ -77,6 +78,8 @@
 
   <div id="content">
     <svg class="svg"></svg>
+    <rect class="bar" transform="translate(18.079999923706055,0)" fill="#6c757d" height="239.03224" width="5%" y="180.96776" x="80"></rect>
+
   </div>
 
   <script type="text/javascript">
@@ -276,6 +279,7 @@
 
       // 產生長條圖
       svg.selectAll('.bar')
+  
         .data(data)
         .enter()
         .append('rect')
