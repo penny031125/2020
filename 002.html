@@ -226,25 +226,25 @@
         // x 軸比例尺
         xScale = d3.scale.linear().domain([0, data.length]).range([0, width]);
         // y 軸比例尺 給繪製矩形用
-        yScale  = d3.scale.linear().domain([0, 100000]).range([0, height]);
+        yScale  = d3.scale.linear().domain([0, 1000000]).range([0, height]);
         // y 軸比例尺 2 繪製座標軸用
-        yScale2 = d3.scale.linear().domain([0, 100000]).range([height, 0]);
+        yScale2 = d3.scale.linear().domain([0, 1000000]).range([height, 0]);
       }
       else if( chartType === 'unit_price' ){
         // x 軸比例尺
         xScale = d3.scale.linear().domain([0, data.length]).range([0, width]);
         // y 軸比例尺 給繪製矩形用
-        yScale  = d3.scale.linear().domain([0, 3000]).range([0, height]);
+        yScale  = d3.scale.linear().domain([0, 1000000]).range([0, height]);
         // y 軸比例尺 2 繪製座標軸用
-        yScale2 = d3.scale.linear().domain([0, 3000]).range([height, 0]);
+        yScale2 = d3.scale.linear().domain([0, 1000000]).range([height, 0]);
       }
       else if( chartType === 'unit' ){
         // x 軸比例尺
         xScale = d3.scale.linear().domain([0, data.length]).range([0, width]);
         // y 軸比例尺 給繪製矩形用
-        yScale  = d3.scale.linear().domain([0, 60]).range([0, height]);
+        yScale  = d3.scale.linear().domain([0, 1000000]).range([0, height]);
         // y 軸比例尺 2 繪製座標軸用
-        yScale2 = d3.scale.linear().domain([0, 60]).range([height, 0]);
+        yScale2 = d3.scale.linear().domain([0, 1000000]).range([height, 0]);
       }
 
       // 座標軸重繪
