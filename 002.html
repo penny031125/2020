@@ -152,7 +152,8 @@
     "unit_price": 223197
   }
 ];
-<font color="red">108年</font>
+
+
   var svg = d3.select('.svg');
 
   // 設定畫布尺寸 & 邊距
@@ -279,7 +280,6 @@
 
       // 產生長條圖
       svg.selectAll('.bar')
-  
         .data(data)
         .enter()
         .append('rect')
