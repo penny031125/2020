@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+  <style type="text/css">
+  html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #555;
+  }
+
+  .axis text {
+    fill: #555;
+  }
+
+  .line {
+    fill: none;
+    stroke: #ef0d0c;
+    stroke-width: 1.5px;
+  }
+
+  #content {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 300px;
+    max-width: 1060px;
+    max-height: 500px;
+    overflow: hidden;
+  }
+
+  #button-container {
+    width: 600px;
+    margin: 30px auto;
+    padding:30px;
+}
+
+ /* .active {
+    color: white;
+    background-color: black;
+    border-color: grey;
+}*/
+   button {
+    cursor: pointer;
+    font-size: 16px;
+    display: inline;
+    padding: 10px;
+    margin: 0 20px;
+    color: black;
+    background-color: white;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+}
+
+  </style>
+
+</head>
+
+<body>
+
+<div id="button-container">
+
+     <button id="price">總銷售量</button>
+     <button id="unit_price">生產量</button>
+     <button id="unit">內銷量</button>
+   
+
+</div>
+
+  <div id="content">
+    <svg class="svg"></svg>
+    <rect class="bar" transform="translate(18.079999923706055,0)" fill="#6c757d" height="239.03224" width="5%" y="180.96776" x="80"></rect>
+
+  </div>
+
+  <script type="text/javascript">
+  var data = [
+
+  {
+    "region": "98年",
+    "unit": 126188 ,
+    "price": 175078 ,
+    "unit_price": 175759,
+    'color':"＃40434E"
+  },
+  {
+    "region": "99年",
+    "unit": 142595,
+    "price": 193660,
+    "unit_price": 195877,
+    'color':"＃40434E"
+    
+  },
+  {
+    "region": "100年",
+    "unit": 142114,
+    "price": 193614,
+    "unit_price": 193802,
+    'color':"＃40434E"
+  },
+  {
+    "region": "101年",
+    "unit": 146485,
+    "price": 201620,
+    "unit_price": 202572,
+    'color':"＃40434E"
+  },
+  {
+    "region": "102年",
+    "unit": 152407,
+    "price": 201474,
+    "unit_price": 200005,
+    'color':"＃40434E"
+  },
+  {
+    "region": "103年",
+    "unit": 171994,
+    "price": 223649,
+    "unit_price": 221099,
+    'color':"＃40434E"
+  },
+  {
+    "region": "104年",
+    "unit":171005,
+    "price": 216729,
+    "unit_price": 214680,
+    'color':"＃40434E"
+  },
+  {
+    "region": "105年",
+    "unit": 163239,
+    "price": 211862,
+    "unit_price": 214329,
+    'color':"＃40434E"
+  },
+  {
+    "region": "106年",
+    "unit": 169533,
+    "price": 222289,
+    "unit_price": 225456,
+    'color':"＃40434E"
+  },
+  {
+    "region": "107年",
+    "unit": 167374,
+    "price": 230535,
+    "unit_price": 232052,
+    'color':"＃40434E"
+  },
+  {
+    "region": "108年",
+    "unit": 140573,
+    "price": 220932,
+    "unit_price": 223197,
+    'color':"＃080705"
+  }
+];
+
+
+  var svg = d3.select('.svg');
+
+  // 設定畫布尺寸 & 邊距
+  var margin = 80,
+      width = 960 - margin * 0.7,
+      height = 500 - margin * 2;
+
+  svg.attr({
+    "width": width + margin,
+    "height": height + margin * 2,
+    "transform": "translate(" + margin + "," + margin + ")"
+  });
+
+  // x 軸比例尺
+  var xScale_price = d3.scale.linear()
+    .domain([0, data.length])
+    .range([0, width]);
+
+  // y 軸比例尺 給繪製矩形用
+  var yScale_price = d3.scale.linear()
+    .domain([0, 250000])
+    .range([0, height]);
+
+  // y 軸比例尺 2 繪製座標軸用
+  var yScale2_price = d3.scale.linear()
+    .domain([0, 250000])
+    .range([height, 0]);
+
+  // x 軸
+  var xAxis = d3.svg.axis()
+    .scale(xScale_price)
+    .orient("bottom")
+    .ticks( data.length )
+    .tickFormat(function(i){
+      return (data[i]) ? data[i].region : '';   // 這裡控制坐標軸的單位
+    });
+
+  // y 軸
+  var yAxis = d3.svg.axis()
+    .scale(yScale2_price)
+    .orient("left");
+
+  // 繪製 x 軸
+  svg.append("g")
+    .attr({
+      "class": "x axis",
+      "transform": "translate(" + margin + "," + (height + margin) + ")",
+      'fill': '#ffffff'
+    })
+    .call(xAxis);
+
+  // 繪製 y 軸
+  svg.append("g")
+    .attr({
+      "class": "y axis",
+      "transform": "translate(" + margin + ", " + margin + ")",
+      'fill': '#ffffff'
+    })
+    .call(yAxis);
+
+  // 處理軸線位移
+  svg.select('.x.axis').selectAll('.tick text').attr("dx", width * 0.05);
+  svg.select('.x.axis').selectAll('.tick line').attr('transform', 'translate(' + width * 0.05 + ', 0)');
+
+  d3.selectAll('#button-container > button').on('click', function(){
+
+      // price, unit_price, unit
+      var chartType = d3.select(this).attr('id');
+      var xScale, yScale, yScale2, xAxis, yAxis;
+      var c10 = d3.scale.category10();
+
+      // 依照圖表的類別，重新定義 x, y 比例尺
+      if( chartType === 'price' ){
+        // x 軸比例尺
+        xScale = d3.scale.linear().domain([0, data.length]).range([0, width]);
+        // y 軸比例尺 給繪製矩形用
+        yScale  = d3.scale.linear().domain([0, 250000]).range([0, height]);
+        // y 軸比例尺 2 繪製座標軸用
+        yScale2 = d3.scale.linear().domain([0, 250000]).range([height, 0]);
+      }
+      else if( chartType === 'unit_price' ){
+        // x 軸比例尺
+        xScale = d3.scale.linear().domain([0, data.length]).range([0, width]);
+        // y 軸比例尺 給繪製矩形用
+        yScale  = d3.scale.linear().domain([0, 250000]).range([0, height]);
+        // y 軸比例尺 2 繪製座標軸用
+        yScale2 = d3.scale.linear().domain([0, 250000]).range([height, 0]);
+      }
+      else if( chartType === 'unit' ){
+        // x 軸比例尺
+        xScale = d3.scale.linear().domain([0, data.length]).range([0, width]);
+        // y 軸比例尺 給繪製矩形用
+        yScale  = d3.scale.linear().domain([0, 250000]).range([0, height]);
+        // y 軸比例尺 2 繪製座標軸用
+        yScale2 = d3.scale.linear().domain([0, 250000]).range([height, 0]);
+      }
+
+      // 座標軸重繪
+      // x 軸
+      xAxis = d3.svg.axis()
+        .scale(xScale)
+        .orient("bottom")
+        .ticks( data.length )
+        .tickFormat(function(i){
+          return (data[i]) ? data[i].region : '';   // 這裡控制坐標軸的單位
+        });
+
+      // y 軸
+      yAxis = d3.svg.axis().scale(yScale2).orient("left");
+
+      // 更新軸線
+      svg.selectAll('.x.axis').transition().duration(1000).call(xAxis);
+      svg.selectAll('.y.axis').transition().duration(1000).call(yAxis);
+
+
+      // 資料排序, 透過 d3.descending 或 d3.ascending 來決定排序方式
+      data.sort(function(a, b){
+        // 降冪
+        // return d3.descending(a[chartType], b[chartType]);
+
+        // 升冪
+        return d3.ascending(a[chartType], b[chartType]);
+      });
+
+      // 產生長條圖
+      svg.selectAll('.bar')
+        .data(data)
+        .enter()
+        .append('rect')
+        .classed('bar', true);
+
+      svg.selectAll('.bar')
+        .transition()
+        .duration(700)
+        .attr({
+          'x': function(d, i) {
+            return xScale(i) + margin
+          },
+          'y': function(d, i) {
+            return height - yScale(d[chartType])+ margin;
+          },
+          'width': '5%',
+          'height': function(d, i) {
+            return yScale(d[chartType]);
+          },
+          'fill': function(d, i){
+        
+            return d["color"];
+            //return c10(i);
+          },
+          "transform": "translate(" +  width * (0.02) + ", " + 0 + ")",
+        });
+
+  });
+
+
+  </script>
+</body>
+</html>
