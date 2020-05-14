@@ -23,7 +23,7 @@
 
   .line {
     fill: none;
-    stroke: #ef0d0c;
+    stroke: #40434E;
     stroke-width: 1.5px;
   }
 
@@ -89,67 +89,79 @@
     "region": "98年",
     "unit": 126188 ,
     "price": 175078 ,
-    "unit_price": 175759
+    "unit_price": 175759,
+    'color':"#4F4F4F"
   },
   {
     "region": "99年",
     "unit": 142595,
     "price": 193660,
-    "unit_price": 195877
+    "unit_price": 195877,
+    'color':"#4F4F4F"
+    
   },
   {
     "region": "100年",
     "unit": 142114,
     "price": 193614,
-    "unit_price": 193802
+    "unit_price": 193802,
+    'color':"#4F4F4F"
   },
   {
     "region": "101年",
     "unit": 146485,
     "price": 201620,
-    "unit_price": 202572
+    "unit_price": 202572,
+    'color':"#4F4F4F"
   },
   {
     "region": "102年",
     "unit": 152407,
     "price": 201474,
-    "unit_price": 200005
+    "unit_price": 200005,
+    'color':"#4F4F4F"
   },
   {
     "region": "103年",
     "unit": 171994,
     "price": 223649,
-    "unit_price": 221099
+    "unit_price": 221099,
+    'color':"#4F4F4F"
   },
   {
     "region": "104年",
     "unit":171005,
     "price": 216729,
-    "unit_price": 214680
+    "unit_price": 214680,
+    'color':"#4F4F4F"
   },
   {
     "region": "105年",
     "unit": 163239,
     "price": 211862,
-    "unit_price": 214329
+    "unit_price": 214329,
+    'color':"#4F4F4F"
   },
   {
     "region": "106年",
     "unit": 169533,
     "price": 222289,
-    "unit_price": 225456
+    "unit_price": 225456,
+    'color':"#4F4F4F"
   },
   {
     "region": "107年",
     "unit": 167374,
     "price": 230535,
-    "unit_price": 232052
+    "unit_price": 232052,
+    'color':"#4F4F4F"
   },
   {
     "region": "108年",
     "unit": 140573,
     "price": 220932,
-    "unit_price": 223197
+    "unit_price": 223197,
+    'color':"#FF8040"
   }
 ];
 
@@ -275,7 +287,8 @@
         // return d3.descending(a[chartType], b[chartType]);
 
         // 升冪
-        return d3.ascending(a[chartType], b[chartType]);
+        return d3.ascending(parseInt(a["region"]), parseInt(b["region"]));
+       // return d3.ascending(a[chartType], b[chartType]);
       });
 
       // 產生長條圖
@@ -300,7 +313,9 @@
             return yScale(d[chartType]);
           },
           'fill': function(d, i){
-            return c10(i);
+        console.log(d,i);
+            return d["color"];
+            //return c10(i);
           },
           "transform": "translate(" +  width * (0.02) + ", " + 0 + ")",
         });
